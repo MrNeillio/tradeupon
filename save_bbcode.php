@@ -1,18 +1,21 @@
 <?php
-// Get the JSON data from the POST request
-$data = json_decode(file_get_contents('php://input'), true);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get the BBCode from the form submission
+    $bbcode = $_POST['bbcode'];
 
-// Get content and filename from the POST data
-$content = $data['content'];
-$filename = $data['filename'];
+    // Define the file name and path where the BBCode will be saved
+    $filePath = 'saved_bbcodes/receipt_' . time() . '.txt'; // Unique file name using timestamp
 
-// Define the file path (make sure the folder is writable by the server)
-$filePath = 'bbcode_folder/' . $filename;
+    // Create directory if it doesn't exist
+    if (!is_dir('saved_bbcodes')) {
+        mkdir('saved_bbcodes', 0777, true);
+    }
 
-// Write the content to the file
-if (file_put_contents($filePath, $content)) {
-    echo json_encode(['success' => true]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Error writing to file']);
+    // Save the BBCode to the text file
+    if (file_put_contents($filePath, $bbcode)) {
+        echo 'BBCode saved successfully!';
+    } else {
+        echo 'Failed to save BBCode.';
+    }
 }
 ?>
