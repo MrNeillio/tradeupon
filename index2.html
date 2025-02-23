@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save BBCode Example</title>
+</head>
+<body>
+
+    <!-- Form to submit BBCode -->
+    <form id="bbcodeForm" action="save_bbcode.php" method="POST">
+        <textarea id="displaySalesReceiptBB" name="bbcode" rows="10" cols="100"></textarea><br>
+        <button type="submit">Save BBCode</button>
+    </form>
+
+    <script>
+        // Example to dynamically generate BBCode and populate the textarea
+        function generateBBCode() {
+            const bbcode = '[divbox=powderblue]\n[color=powderblue]….[/color]\n[float=right]\n[right]\n\n[size=150][b]Trade Upon[/size][/b]';
+            document.getElementById('displaySalesReceiptBB').value = bbcode;
+        }
+
+        // Automatically call generateBBCode() to show an example BBCode
+        generateBBCode();
+    </script>
+
+</body>
+</html>

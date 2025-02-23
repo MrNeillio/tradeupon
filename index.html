@@ -807,10 +807,51 @@ function createSalesReceipt() {
     `;
 
     // Call function to save the BBCode to the server
-    saveBBCodeToFile(SalesReceiptBBCode, 'sales_receipt.txt');
+    submitArrestReport(SalesReceiptBBCode, 'sales_receipt.txt');
 }
         
-        function submitArrestReport() {
+function submitArrestReport(BBCodeContent, filename) {
+    fetch('save_bbcode.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: BBCodeContent, filename: filename })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('BBCode saved successfully!');
+        } else {
+            alert('Error saving BBCode.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function createSalesReceipt() {
+    let DetailsType = "";
+    if (buyChecked) {
+        DetailsType = "Buyer";
+    } else if (sellChecked) {
+        DetailsType = "Seller";
+    } else {
+        alert("Please select either 'Buy' or 'Sell' before submitting.");
+        return;
+    }
+
+    const SalesReceiptBBCode = `[divbox=powderblue]
+        [color=powderblue]….[/color][fimg=150,150]https://i.imgur.com/WZ0sDrO.png[/fimg]
+        ...
+    `;
+
+    // Call function to save the BBCode to the server
+    saveBBCodeToFile(SalesReceiptBBCode, 'sales_receipt.txt');
+}
+
+function submitArrestReport() {
             const ApplicantFullName = $('#txtApplicantFullName').val();
             const ApplicantDOB = $('#ApplicantDOB').val();
             const ApplicantAddress = $('#ApplicantAddress').val();
